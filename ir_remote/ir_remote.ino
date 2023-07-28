@@ -25,10 +25,9 @@ decode_results results;
 // void * to work around compiler issue
 //void dump(void *v) {
 //  decode_results *results = (decode_results *)v
-void dump(decode_results *results) 
-{
+void dump(decode_results *results) {
   int count = results->rawlen;
-  
+
   if (results->decode_type == UNKNOWN) 
   {
     Serial.println("Could not decode message");
@@ -55,8 +54,8 @@ void dump(decode_results *results)
     Serial.print(" (");
     Serial.print(results->bits, DEC);
     Serial.println(" bits)");
-  } 
-     
+  }
+  
   Serial.print("Raw (");
   Serial.print(count, DEC);
   Serial.print("): ");
@@ -67,18 +66,17 @@ void dump(decode_results *results)
     {
       Serial.print(results->rawbuf[i]*USECPERTICK, DEC);
     } 
-  else  
-  {
-    Serial.print(-(int)results->rawbuf[i]*USECPERTICK, DEC);
-  }
+    else  
+    {
+      Serial.print(-(int)results->rawbuf[i]*USECPERTICK, DEC);
+    }
     Serial.print(" ");
   }
-    
   Serial.println("");
 }
 
 void setup()
-{
+ {
   pinMode(RECV_PIN, INPUT);   
   pinMode(LED1, OUTPUT);
   pinMode(LED2, OUTPUT);
@@ -88,51 +86,49 @@ void setup()
   pinMode(LED6, OUTPUT);  
   pinMode(13, OUTPUT);
   Serial.begin(9600);
-  irrecv.enableIRIn(); // Start the receiver
-}
-
+   irrecv.enableIRIn(); // Start the receiver
+ }
 int on = 0;
 unsigned long last = millis();
 
 void loop() 
 {
   if (irrecv.decode(&results)) 
-  {
+   {
     // If it's been at least 1/4 second since the last
     // IR received, toggle the relay
     if (millis() - last > 250) 
-    {
-      on = !on;
-  //       digitalWrite(8, on ? HIGH : LOW);
-      digitalWrite(13, on ? HIGH : LOW);
-      dump(&results);
-    }
-    
+      {
+       on = !on;
+//       digitalWrite(8, on ? HIGH : LOW);
+       digitalWrite(13, on ? HIGH : LOW);
+       dump(&results);
+      }
     if (results.value == on1 )
-        digitalWrite(LED1, HIGH);
+       digitalWrite(LED1, HIGH);
     if (results.value == off1 )
-        digitalWrite(LED1, LOW); 
+       digitalWrite(LED1, LOW); 
     if (results.value == on2 )
-        digitalWrite(LED2, HIGH);
+       digitalWrite(LED2, HIGH);
     if (results.value == off2 )
-        digitalWrite(LED2, LOW); 
+       digitalWrite(LED2, LOW); 
     if (results.value == on3 )
-        digitalWrite(LED3, HIGH);
+       digitalWrite(LED3, HIGH);
     if (results.value == off3 )
-        digitalWrite(LED3, LOW);
+       digitalWrite(LED3, LOW);
     if (results.value == on4 )
-        digitalWrite(LED4, HIGH);
+       digitalWrite(LED4, HIGH);
     if (results.value == off4 )
-        digitalWrite(LED4, LOW); 
+       digitalWrite(LED4, LOW); 
     if (results.value == on5 )
-        digitalWrite(LED5, HIGH);
+       digitalWrite(LED5, HIGH);
     if (results.value == off5 )
-        digitalWrite(LED5, LOW); 
+       digitalWrite(LED5, LOW); 
     if (results.value == on6 )
-        digitalWrite(LED6, HIGH);
+       digitalWrite(LED6, HIGH);
     if (results.value == off6 )
-        digitalWrite(LED6, LOW);        
+       digitalWrite(LED6, LOW);        
     last = millis();      
-    irrecv.resume(); // Receive the next value
+irrecv.resume(); // Receive the next value
   }
 }
